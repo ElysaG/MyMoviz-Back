@@ -2,8 +2,6 @@ var express = require("express");
 var router = express.Router();
 const fetch = require("node-fetch");
 
-
-
 const API_KEY = process.env.API_KEY;
 
 router.get("/movies", (req, res) => {
@@ -11,21 +9,18 @@ router.get("/movies", (req, res) => {
     .then((res) => res.json())
     .then((apiData) => {
       if (apiData) {
-
-        // Version initiale: 
+        // Version initiale:
         // return res.json({ movies: apiData });
- const movies = data.results.map(movie => ({
-        title: movie.title,
-        poster_path: movie.poster_path,
-        overview: movie.overview,
-        vote_average: movie.vote_average,
-        vote_count: movie.vote_count
-      }));
-      res.json({ movies }) //Renvoie un objet
-
-
+        const movies = apiData.results.map((movie) => ({
+          title: movie.title,
+          poster_path: movie.poster_path,
+          overview: movie.overview,
+          vote_average: movie.vote_average,
+          vote_count: movie.vote_count,
+        }));
+        res.json({ movies }); //Renvoie un objet {movies:[]} comme dans la consigne!
       } else {
-        return res.json({ result: false, error:"not found" });
+        return res.json({ result: false, error: "not found" });
       }
     });
 });
