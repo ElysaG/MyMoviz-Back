@@ -11,7 +11,19 @@ router.get("/movies", (req, res) => {
     .then((res) => res.json())
     .then((apiData) => {
       if (apiData) {
-        return res.json({ movies: apiData });
+
+        // Version initiale: 
+        // return res.json({ movies: apiData });
+ const movies = data.results.map(movie => ({
+        title: movie.title,
+        poster_path: movie.poster_path,
+        overview: movie.overview,
+        vote_average: movie.vote_average,
+        vote_count: movie.vote_count
+      }));
+      res.json({ movies }) //Renvoie un objet
+
+
       } else {
         return res.json({ result: false, error:"not found" });
       }
